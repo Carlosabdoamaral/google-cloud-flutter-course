@@ -1,13 +1,15 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const Exploring());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Exploring extends StatelessWidget {
+  const Exploring({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,25 +17,35 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: const MyHomePage(title: 'Counter'),
+      home: const ExploringPage(title: 'Exploring'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class ExploringPage extends StatefulWidget {
+  const ExploringPage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<ExploringPage> createState() => _ExploringPage();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _ExploringPage extends State<ExploringPage> {
   int _counter = 0;
+  int _i = -1;
+  String _username = "Clique para iniciar";
+  List<String> _workers = ["Nome_01", "Nome_02", "Nome_03", "Nome_04", "Nome_05"];
 
-  void _incrementCounter() {
+  void _chageWorker() {
     setState(() {
-      _counter++;
+      _i++;
+
+      try {
+        _username = _workers[_i];
+      } catch(e) {
+        _i = 0;
+        _username = _workers[_i];
+      }
     });
   }
 
@@ -43,28 +55,26 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
+
       body: Center(
 
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-
-            const Text(
-              'You have pushed the button this many times:',
+            FloatingActionButton(
+              onPressed: _chageWorker,
+              tooltip: "Mudar funcionário",
+              child: const Icon(Icons.account_circle),
             ),
-
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline1,
-            ),
+              _username,
+              style: Theme.of(context).textTheme.headline4,
+            )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+
+//style: Theme.of(context).textTheme.headline1,
